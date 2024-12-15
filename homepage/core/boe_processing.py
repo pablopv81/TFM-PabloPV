@@ -24,7 +24,7 @@ class BoeProcessing:
       self.__listafinal = []
       self.__idx = 0
 
-      self.__headers = {'Accept': 'application/json',}
+      self.__headers = {'Accept':'application/json',}
 
       self.__pattern = r'\xa0'
       self.__found = False
