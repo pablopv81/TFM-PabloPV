@@ -31,7 +31,7 @@ class BoeReader:
                              500: 'INTERNAL SERVER ERROR',
                              502: 'BAD GATEWAY'
                             }
-      self.__headers = {'Accept': 'application/json',
+      self.__headers = {'Accept':'application/json',
                         }
       self.__file_names = []
       self.__listaboe = []
