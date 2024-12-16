@@ -6,13 +6,10 @@ import pandas as pd
 import re
 
 from pathlib import Path
-import pathlib
 from bs4 import BeautifulSoup
 
 
 class BoeProcessing:
-
-    ner_model = spacy.load(str(pathlib.Path(__file__).parent.resolve()) + '/trained_models/output/model-best')
 
     def __init__(self,departments,sections,boe_extraction_date):
       
@@ -24,7 +21,7 @@ class BoeProcessing:
       self.__listafinal = []
       self.__idx = 0
 
-      self.__headers = {'Accept':'application/json',}
+      self.__headers = {'Accept': 'application/json',}
 
       self.__pattern = r'\xa0'
       self.__found = False
@@ -33,24 +30,9 @@ class BoeProcessing:
       
       self.__disposcionesDict = {'1':'primera','2':'segunda', '3':'tercera', '4':'cuarta', '5':'quinta','6':'sexta','7':'séptima',
                                 '8':'octava', '9':'novena', '10':'décima', '11': 'undécima', '12':'doceava', '13':'treceava', '14':'catorceava',
-                                '15':'quinceava','16':'dieciseisava', '17':'decimoséptima', '18': 'decimooctava', '19': 'decimonovena', '20': 'vigésima',
-                                '21': 'vigésimo primera', '22': 'vigésimo segunda', '23': 'vigésimo tercera', '24': 'vigésimo cuarta', '25': 'vigésimo quinta',
-                                '26': 'vigésimo sexta', '27': 'vigésimo séptima', '28': 'vigésimo actava', '29': 'vigésimo novena', '30': 'trigésima',
-                                '31': 'trigésima primera', '32':'trigésima segunda', '33': 'trigésima tercera', '34': 'trigésima cuarta', '35':'trigésima quinta',
-                                '36': 'trigésima sexta', '37':'trigésima séptima', '38':'trigésima octava', '39':'trigésima novena', '40': 'cuadragésima',
-                                '41': 'cuadragésima primera', '42':'cuadragésima segunda', '43': 'cuadragésima tercera', '44': 'cuadragésima cuarta','45':'cuadragésima quinta', 
-                                '46': 'cuadragésima sexta', '47': 'cuadragésima séptima','48': 'cuadragésima octava', '49': 'cuadragésima novena', '50': 'quincuagésima',
-                                '51': 'quincuagésima primera', '52': 'quincuagésima segunda', '53': 'quincuagésima tercera', '54':'quincuagésima cuarta', '55': 'quincuagésima quinta',
-                                '56': 'quincuagésima sexta', '57': 'quincuagésima séptima', '58': 'quincuagésima octava', '59': 'quincuagésima novena', '60': 'sexagésima',
-                                '61': 'sexagésima primera', '62': 'sexagésima segunda', '63': 'sexagésima tercera', '64':'sexagésima cuarta', '65':'sexagésima quinta',
-                                '66':'sexagésima sexta', '67':'sexagésima séptima', '68':'sexagésima octava', '69':'sexagésima novena', '70': 'septuagésima',
-                                '71': 'septuagésima primera', '72': 'septuagésima segunda', '73':'septuagésima tercera', '74':'septuagésima cuarta', '75':'septuagésima quinta',
-                                '76': 'septuagésima sexta', '77': 'septuagésima séptima', '78':'septuagésima octava', '79':'septuagésima novena', '80':'octogésima',
-                                '81': 'octogésima primera', '82': 'octogésima segunda', '83':'octogésima tercera', '84':'octogésima cuarta', '85':'octogésima quinta',
-                                '86': 'octogésima sexta', '87': 'octogésima séptima', '88': 'octogésima octava', '89':'octogésima novena', '90': 'nonagésima',
-                                '91':'nonagésima primera', '92':'nonagésima segunda', '93': 'nonagésima tercera', '94':'nonagésima cuarta', '95':'nonagésima quinta',
-                                '96':'nonagésima sexta', '97':'nonagésima séptima', '98': 'nonagésima octava', '99':'nonagésima novena', '100': 'centésima',
-                                '101': 'centésima primera','102': 'centésima segunda', '103': 'centésima tercera', '104': 'centésima cuarta','105':'centésima qunita'}
+                                '15':'quinceava','16':'dieciseisava', 
+                                '45':'cuadragésima quinta', '46': 'cuadragésima sexta', '47': 'cuadragésima séptima',
+                                '48': 'cuadragésima octava', '49': 'cuadragésima novena'}
       
       '''PRINT LOG'''
       self.__print_log = True
@@ -59,19 +41,11 @@ class BoeProcessing:
       self.__logList = []
 
       ''' NER MODEL FOR DETECTING ENTITIES OF MY INTERES, SUCH AS ARTICULOS AND DISPOSICIONES '''
-      #self.__pwd = os.path.dirname(os.path.realpath(__file__ )) 
-      self.__pwd= str(pathlib.Path(__file__).parent.resolve()) 
-      print('------ INICIANDO CARGA MODELO CUSTOM NER ------')
-      #self.__ner_model = spacy.load(self.__pwd + '/trained_models/output/model-best')
-      self.__ner_model = BoeProcessing.ner_model
-      print('------ FIN CARGA MODELO CUSTOM NER ------')
-      #self.__ner_model = spacy.load(os.path.join(self.__pwd, '/trained_models/output/model-best') )
+      self.__ner_model = spacy.load('./trained_models/output/model-best')
 
       self.__boe_extraction()
 
-    def getLog(self):
-        return self.__logList
-    
+
     def get_extraction_status(self):
         return self.extraction_status
 
@@ -84,23 +58,21 @@ class BoeProcessing:
       secciones_list = []
       items_list = []
 
-      self.__append_log('------INICIO EXTRACCION-------')
-
       boe_date_s = boe_date.strftime('%Y%m%d') 
       api_url = "https://boe.es/datosabiertos/api/boe/sumario/"+boe_date_s
       
       ''' SAVING BOE WEB PAGE NAME'''
       self.__append_log('BOE URL -> ' + api_url)
 
-      self.__folder = self.__pwd + '/BOE_PROCESSED_FILES/'+ boe_date.strftime('%Y%m%d') + '/'
+      self.__folder = 'BOE_PROCESSED_FILES/'+ boe_date.strftime('%Y%m%d') + '/'
       file_path = self.__folder+boe_date.strftime('%Y%m%d')+'.json'
 
       '''PATH WHERE THE FILES ARE GENERATED'''
       self.__append_log('Ruta generacion fichero ->' + file_path)
 
       if Path(file_path).exists(): # CHECK IF FILE IS ALREADY DOWNLOADED -> Example -> does file '20240903.json' exists in BOE_FILES folder?
-        self.__append_log('Fichero ' + file_path + ' ya existe. Generacion no necesaria')
-        #print('FICHERO ' + file_path + ' YA EXISTE. GENERACION NO ES NECESARIA' )
+        #self.__append_log('Fichero ' + file_path + ' ya existe. Generacion no necesaria')
+        print('FICHERO ' + file_path + ' YA EXISTE. GENERACION NO ES NECESARIA' )
       else:
 
         try:
@@ -127,92 +99,86 @@ class BoeProcessing:
     def __boe_file_generation(self,api_url,file_path):
 
         items_list = []
-
-        print('--CONTROL--')
+       
         response = requests.get(api_url, headers=self.__headers)
-        print(response.status_code)
 
-        if(response.status_code != 200):
-            self.__append_log(response.status_code)
-            self.__append_log('\n')
-        else:
-            self.__append_log(response.status_code)
-            self.__append_log('\n')
+        self.__append_log('Codigo de retorno 200')
+        self.__append_log('\n')
+
+        os.makedirs(self.__folder)
+
+        data = response.content.decode('utf-8')
+        with open(file_path, 'w') as outf:
+            outf.write(data)
+        outf.close()
+        
+        with open(file_path, "r") as file:
+            data = json.load(file)
             
-            os.makedirs(self.__folder)
-
-            data = response.content.decode('utf-8')
-            with open(file_path, 'w') as outf:
-                outf.write(data)
-            outf.close()
+            publicacion=data['data']['sumario']['metadatos']['publicacion']
+            fecha_publicacion=data['data']['sumario']['metadatos']['fecha_publicacion']
+            identificador = data['data']['sumario']['diario'][0]['sumario_diario']['identificador']
+            url_pdf = data['data']['sumario']['diario'][0]['sumario_diario']['url_pdf']['texto']
+            secciones = data['data']['sumario']['diario'][0]['seccion']
             
-            with open(file_path, "r") as file:
-                data = json.load(file)
-                
-                publicacion=data['data']['sumario']['metadatos']['publicacion']
-                fecha_publicacion=data['data']['sumario']['metadatos']['fecha_publicacion']
-                identificador = data['data']['sumario']['diario'][0]['sumario_diario']['identificador']
-                url_pdf = data['data']['sumario']['diario'][0]['sumario_diario']['url_pdf']['texto']
-                secciones = data['data']['sumario']['diario'][0]['seccion']
-                
-                for seccion in secciones:
-                                    
-                    codigo_seccion = seccion['codigo']
-                    nombre_seccion = seccion['nombre']
-
-                    if nombre_seccion in self.__sections:
-                    
-                        departamento = seccion['departamento']
-
-                        for info_departamento in departamento:
-
-                            codigo_departamento = info_departamento['codigo']
-                            nombre_departamento = info_departamento['nombre']
-                            
-                            if nombre_departamento in self.__departments:
-                            
-                                for epigrafe in info_departamento['epigrafe']:
+            for seccion in secciones:
                                 
-                                    nombre_epigrafe = epigrafe['nombre']
+                codigo_seccion = seccion['codigo']
+                nombre_seccion = seccion['nombre']
 
-                                    if type(epigrafe['item']) != list:
-                                        items_list.append(epigrafe['item'])
-                                        items = items_list
-                                    else:
-                                        items = epigrafe['item']
+                if nombre_seccion in self.__sections:
+                   
+                    departamento = seccion['departamento']
 
-                                    for item in items:
+                    for info_departamento in departamento:
 
-                                        identificador_item = self.__validate_element(item,'identificador')
-                                        control_item = self.__validate_element(item,'control')
-                                        titulo_item = self.__validate_element(item,'titulo')
-                                        url_pdf_item = self.__validate_element(item,'url_pdf')
-                                        url_html_item = self.__validate_element(item,'url_html')
-                                        url_xml_item = self.__validate_element(item,'url_xml')
+                        codigo_departamento = info_departamento['codigo']
+                        nombre_departamento = info_departamento['nombre']
+                        
+                        if nombre_departamento in self.__departments:
+                           
+                            for epigrafe in info_departamento['epigrafe']:
+                              
+                                nombre_epigrafe = epigrafe['nombre']
 
-                                        ant_references,post_references=self.__get_references(url_xml_item)
+                                if type(epigrafe['item']) != list:
+                                    items_list.append(epigrafe['item'])
+                                    items = items_list
+                                else:
+                                    items = epigrafe['item']
 
-                                        self.__listaboe.append(pd.DataFrame({'publicacion':publicacion,
-                                                                            'api_url': api_url,
-                                                                            'fecha_publicacion':fecha_publicacion,
-                                                                            'identificador':identificador,
-                                                                            'url_pdf': url_pdf,
-                                                                            'codigo_seccion':codigo_seccion,
-                                                                            'nombre_seccion':nombre_seccion,
-                                                                            'codigo_departamento':codigo_departamento,
-                                                                            'nombre_departamento':nombre_departamento,
-                                                                            'nombre_epigrafe': nombre_epigrafe,
-                                                                            'identificador_item': identificador_item,
-                                                                            'control_item': control_item,
-                                                                            'titulo_item': titulo_item,
-                                                                            'url_pdf_item': url_pdf_item,
-                                                                            'url_html_item': url_html_item,
-                                                                            'url_xml_item': url_xml_item,
-                                                                            'referencias_anteriores':[ant_references],
-                                                                            'referencias_posteriores':[post_references]},
-                                                                            index=[self.__idx]))
-                                        items_list = []
-                                        self.__idx+=1
+                                for item in items:
+
+                                    identificador_item = self.__validate_element(item,'identificador')
+                                    control_item = self.__validate_element(item,'control')
+                                    titulo_item = self.__validate_element(item,'titulo')
+                                    url_pdf_item = self.__validate_element(item,'url_pdf')
+                                    url_html_item = self.__validate_element(item,'url_html')
+                                    url_xml_item = self.__validate_element(item,'url_xml')
+
+                                    ant_references,post_references=self.__get_references(url_xml_item)
+
+                                    self.__listaboe.append(pd.DataFrame({'publicacion':publicacion,
+                                                                        'api_url': api_url,
+                                                                        'fecha_publicacion':fecha_publicacion,
+                                                                        'identificador':identificador,
+                                                                        'url_pdf': url_pdf,
+                                                                        'codigo_seccion':codigo_seccion,
+                                                                        'nombre_seccion':nombre_seccion,
+                                                                        'codigo_departamento':codigo_departamento,
+                                                                        'nombre_departamento':nombre_departamento,
+                                                                        'nombre_epigrafe': nombre_epigrafe,
+                                                                        'identificador_item': identificador_item,
+                                                                        'control_item': control_item,
+                                                                        'titulo_item': titulo_item,
+                                                                        'url_pdf_item': url_pdf_item,
+                                                                        'url_html_item': url_html_item,
+                                                                        'url_xml_item': url_xml_item,
+                                                                        'referencias_anteriores':[ant_references],
+                                                                        'referencias_posteriores':[post_references]},
+                                                                        index=[self.__idx]))
+                                    items_list = []
+                                    self.__idx+=1
 
         file.close()
 
@@ -279,8 +245,8 @@ class BoeProcessing:
                                 if normativa == '':
                                     normativa = 'NORMATIVA NO IDENTIFICADA'
                             
-                                boe_referencia = doc.ents[0][0]
-                                link = 'https://www.boe.es/buscar/doc.php?id=' + str(boe_referencia)
+                                boe_referencia = str(doc.ents[0][0])
+                                link = 'https://www.boe.es/buscar/doc.php?id=' + boe_referencia
                                 page = requests.get(link)
                                 boeContent = BeautifulSoup(page.content, 'html.parser')
                                 entity_type = word.label_

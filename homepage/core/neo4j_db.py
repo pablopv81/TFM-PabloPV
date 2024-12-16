@@ -66,6 +66,20 @@ class Neo4jDB:
         '''
     def add_record(self,lista):
 
+        nombre_departamento =''
+        identificador_item = ''
+        fecha_publicacion = ''
+        nombre_epigrafe = ''
+        accion = ''
+        entity_type =''
+        entitydetail =''
+        old_content = ''
+        new_content = ''
+        normativa = ''
+        old_boe = ''
+        link_boe_anterior = ''
+        link_boe_actual = ''
+
         for record in lista:
             '''DEPARTAMENTO QUE LIBERA EL BOE'''
             df = record['nombre_departamento'].to_frame().T
@@ -82,7 +96,7 @@ class Neo4jDB:
             '''EPIGRAFE'''
             df = record['nombre_epigrafe'].to_frame().T
             for index, row in df.iterrows():
-                nombre_epigrafe= row.values
+                nombre_epigrafe= row.values[0]
             '''ACCION'''
             df = record['accion'].to_frame().T
             for index, row in df.iterrows():
@@ -110,27 +124,43 @@ class Neo4jDB:
             df = record['normativa'].to_frame().T
             for index, row in df.iterrows():
                 normativa = row.values[0]
+            '''BOE ANTERIOR'''
+            df = record['boe_anterior'].to_frame().T
+            for index, row in df.iterrows():
+                old_boe = row.values[0]
+            '''LINK BOE ANTERIOR'''
+            df = record['link_boe_anterior'].to_frame().T
+            for index, row in df.iterrows():
+                link_boe_anterior = row.values[0]
+            '''LINK BOE ACTUAL'''
+            df = record['url_html_item'].to_frame().T
+            for index, row in df.iterrows():
+                link_boe_actual = row.values[0]            
 
             p1="MERGE (department:Department{department_name:$department}) "
             p2="MERGE (boe:Boe{boe_id:$boe}) "
             p3="MERGE (date:Date{date:$date}) "
             p4="MERGE (epigrafe:Epigrafe{epigrafe_name:$epigrafe}) "
             p5="MERGE (normativa:Normativa{normativa_desc:$normativa}) "
-            p6="MERGE (entitydetail:Entitydetail{entity:$entitydetail}) "
+            p6="MERGE (oldboe:Oldboe{oldboe:$old_boe}) "
             p7="MERGE (oldcontent:Oldcontent{oldcontent:$old_content}) " 
-            p8="MERGE (newcontent:Newcontent{newcontent:$new_content}) " 
-            p9="MERGE (department)-[:RELEASES]->(boe)"
-            p10="MERGE (boe)-[:BY]->(date)"
-            p11="MERGE (boe)-[:BELONGS]->(epigrafe)"
-            p12="MERGE (entitydetail)-[:FROM]->(normativa)" 
-            p13="MERGE (entitydetail)-[:OLD_CONTENT]->(oldcontent)"
-            p14="MERGE (entitydetail)-[:NEW_CONTENT]->(newcontent)"
+            p8="SET oldcontent.url =$link_boe_anterior "
+            p9="MERGE (entitydetail:Entitydetail{entity:$entitydetail}) "
+            p10="MERGE (newcontent:Newcontent{newcontent:$new_content}) " 
+            p11="SET newcontent.url =$link_boe_actual "
+            p12="MERGE (department)-[:RELEASES]->(boe)"
+            p13="MERGE (boe)-[:BY]->(date)"
+            p14="MERGE (boe)-[:BELONGS]->(epigrafe)"
+            p15="MERGE (entitydetail)-[:FROM]->(normativa)" 
+            p16="MERGE (entitydetail)-[:OLD_CONTENT]->(oldcontent)"
+            p17="MERGE (oldcontent)-[:INCLUDED]->(oldboe)"
+            p18="MERGE (entitydetail)-[:NEW_CONTENT]->(newcontent)"
             if accion == 'MODIFICA':
-                p15="MERGE (boe)-[:MODIFIES]->(entitydetail)"
+                p19="MERGE (boe)-[:MODIFIES]->(entitydetail)"
             elif accion == 'AÑADE':
-                p15="MERGE (boe)-[:ADDS]->(entitydetail)"
+                p19="MERGE (boe)-[:ADDS]->(entitydetail)"
 
-            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15
+            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17+p18+p19
 
             self.__driver.execute_query(query,
                 department=nombre_departamento, 
@@ -140,7 +170,10 @@ class Neo4jDB:
                 normativa = normativa,
                 entitydetail=entitydetail,
                 old_content = old_content,
+                link_boe_anterior = link_boe_anterior,
+                old_boe = old_boe,
                 new_content = new_content,
+                link_boe_actual = link_boe_actual,
                 database_="neo4j",
             )
 
