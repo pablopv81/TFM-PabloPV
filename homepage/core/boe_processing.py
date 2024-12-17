@@ -526,8 +526,11 @@ class BoeProcessing:
     def __get_old_content(self, content,artDetails,soup):
         
         old_content_ = ''
+        result_found = False
 
         for c in content:
+            if result_found == True:
+                break
             for x in artDetails:
                 result = re.findall('\\b'+x['articulo']+'\\b', c.text, flags=re.IGNORECASE)
                 if result:
@@ -535,6 +538,7 @@ class BoeProcessing:
                     for s in h5.find_next_siblings():
                         if s.name == 'p':
                             old_content_  = old_content_ + s.get_text(strip=True) + '\n'
+                            result_found = True
                         else:
                             break   
 
