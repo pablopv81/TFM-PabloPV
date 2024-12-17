@@ -150,15 +150,18 @@ class Neo4jDB:
             p11="MERGE (normativa:Normativa{normativa_desc:$normativa}) "
             p12="MERGE (department)-[:TOPIC]->(epigrafe)"
             p13="MERGE (department)-[:RELEASES]->(boe)"
-            p14="MERGE (boe)-[:BY]->(date)"
-            p15="MERGE (entitydetail)-[:FROM]->(normativa)"
-            p16="MERGE (entitydetail)-[:INCLUDED]->(oldboe)"
+            p14="MERGE (epigrafe)-[:RELEASES]->(boe)"
+            p15="MERGE (boe)-[:BY]->(date)"
+            p16="MERGE (entitydetail)-[:FROM]->(normativa)"
+            p17="MERGE (entitydetail)-[:INCLUDED]->(oldboe)"
             if accion == 'MODIFICA':
-                p17="MERGE (boe)-[:MODIFIES]->(entitydetail)"
+                p18="MERGE (boe)-[:MODIFIES]->(entitydetail)"
             elif accion == 'AÑADE':
-                p17="MERGE (boe)-[:ADDS]->(entitydetail)"
+                p18="MERGE (boe)-[:ADDS]->(entitydetail)"
 
-            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17
+
+
+            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17+p18
 
             self.__driver.execute_query(query,
                 department=nombre_departamento, 
