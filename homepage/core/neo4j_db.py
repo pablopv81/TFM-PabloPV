@@ -138,6 +138,46 @@ class Neo4jDB:
                 link_boe_actual = row.values[0]            
 
             p1="MERGE (department:Department{department_name:$department}) "
+            p2="MERGE (epigrafe:Epigrafe{epigrafe_name:$epigrafe}) "
+            p3="MERGE (date:Date{date:$date}) "
+            p4="MERGE (boe:Boe{boe_id:$boe}) "
+            p5="MERGE (entitydetail:Entitydetail{entity:$entitydetail}) "
+            p6="MERGE (oldboe:Oldboe{oldboe:$old_boe}) "
+            p7="SET entitydetail.oldcontent =$old_content "
+            p8="SET entitydetail.oldcontent_url =$link_boe_anterior "
+            p9="SET entitydetail.newcontent =$new_content "
+            p10="SET entitydetail.newcontent_url =$link_boe_actual "
+            p11="MERGE (normativa:Normativa{normativa_desc:$normativa}) "
+            p12="MERGE (department)-[:TOPIC]->(epigrafe)"
+            p13="MERGE (department)-[:RELEASES]->(boe)"
+            p14="MERGE (boe)-[:BY]->(date)"
+            p15="MERGE (entitydetail)-[:FROM]->(normativa)"
+            p16="MERGE (entitydetail)-[:INCLUDED]->(oldboe)"
+            if accion == 'MODIFICA':
+                p17="MERGE (boe)-[:MODIFIES]->(entitydetail)"
+            elif accion == 'AÑADE':
+                p17="MERGE (boe)-[:ADDS]->(entitydetail)"
+
+            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17
+
+            self.__driver.execute_query(query,
+                department=nombre_departamento, 
+                epigrafe=nombre_epigrafe,
+                date=fecha_publicacion,
+                boe=identificador_item,
+                entitydetail=entitydetail, 
+                old_boe = old_boe,
+                old_content = old_content,
+                link_boe_anterior = link_boe_anterior,
+                new_content = new_content,
+                link_boe_actual = link_boe_actual,
+                normativa = normativa,
+                database_="neo4j",
+            )
+
+            self.__driver.close()
+            '''
+            p1="MERGE (department:Department{department_name:$department}) "
             p2="MERGE (boe:Boe{boe_id:$boe}) "
             p3="MERGE (date:Date{date:$date}) "
             p4="MERGE (epigrafe:Epigrafe{epigrafe_name:$epigrafe}) "
@@ -159,6 +199,7 @@ class Neo4jDB:
                 p19="MERGE (boe)-[:MODIFIES]->(entitydetail)"
             elif accion == 'AÑADE':
                 p19="MERGE (boe)-[:ADDS]->(entitydetail)"
+            
 
             query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17+p18+p19
 
@@ -178,6 +219,8 @@ class Neo4jDB:
             )
 
             self.__driver.close()
+
+            '''
 
 
     def __generate_graph(self,driver,query,date,department_name,entity):
