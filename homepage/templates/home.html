@@ -17,8 +17,6 @@
       <!-- Bootstrap DatePicker -->
     </head>
 
-    {% load static %}
-
     <style>
       @import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
       body {
@@ -108,12 +106,7 @@
           });
       });
     </script>
-    <script type = "text/javascript">
-      var empty_message = '';
-      var message = '{{ message }}';
-      if(message != empty_message)
-        alert ("Formato fecha no es correcto. Se espera DD/MM/YYYY");
-    </script>
+
 
     <div class="form-container">
       <form text-align="center" method="post">
@@ -123,10 +116,19 @@
           <input class="form-control" type="text", id="fechaboe1", name="fecha_extraccion", maxlength="10">
           <br>
           <input type="submit" value="GUARDAR EN NEO4J DB" style="font-style: italic;"/>
+          
         </div>
-
+        {% load static %}
       </form>
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
     </div>
+
   </body>
 
 </html>
