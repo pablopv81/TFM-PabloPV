@@ -113,7 +113,7 @@
         {% csrf_token %}
         <div class="form-group">
           <label style="color:white; font-style:italic"><strong>BOE FECHA EXTRACCIÓN</strong></label>
-          <input class="form-control" type="text", id="fechaboe1", name="fecha_extraccion">
+          <input class="form-control" type="text", id="fechaboe1", name="fecha_extraccion", maxlength="10">
           <br>
           <input type="submit" value="GUARDAR EN NEO4J DB" style="font-style: italic;"/>
         </div>
