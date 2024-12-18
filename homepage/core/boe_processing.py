@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 
 class BoeProcessing:
     
-    ner_model = spacy.load(str(pathlib.Path(__file__).parent.resolve()) + '/NER_CUSTOM_MODEL/trained_models/output/model-best')
+    ner_model = spacy.load(str(pathlib.Path(__file__).parent.resolve()) + '/NER_Custom_Model/trained_models/output/model-best')
 
     def __init__(self,departments,sections,boe_extraction_date):
       
