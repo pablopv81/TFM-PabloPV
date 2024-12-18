@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from .core.boe_processing import BoeProcessing
 from .core.neo4j_db import Neo4jDB
 from django.shortcuts import redirect
+from django.contrib import messages
 
 import datetime
 import os
@@ -22,7 +23,11 @@ def home(request):
             file.write(fecha_extraccion)
 
         if fecha_extraccion:
-            return redirect('/boe_extraction_log')
+            if len(fecha_extraccion) < 10:
+                 message='Formato fecha no es correcta. Se espera DD/MM/YYYY'
+                 return render(request,"home.html", {'message':message})
+            else:
+                return redirect('/boe_extraction_log')
         else:
             return render(request,"home.html")
     

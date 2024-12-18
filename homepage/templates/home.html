@@ -108,6 +108,13 @@
           });
       });
     </script>
+    <script type = "text/javascript">
+      var empty_message = '';
+      var message = '{{ message }}';
+      if(message != empty_message)
+        alert ("Formato fecha no es correcto. Se espera DD/MM/YYYY");
+    </script>
+
     <div class="form-container">
       <form text-align="center" method="post">
         {% csrf_token %}
