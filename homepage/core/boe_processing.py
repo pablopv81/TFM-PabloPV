@@ -422,22 +422,24 @@ class BoeProcessing:
 
         '''Just interested in disposiciones with just 1 number'''
         numDisps=re.findall(r'[0-9]+', entidades)
-        entidades_  = entidades
+        disposicion  = entidades
         if len(numDisps) == 1:
             try:
-                entidades_ = entidades.replace(numDisps[0], self.__disposcionesDict[numDisps[0]])
+                disposicion= entidades.replace(numDisps[0], self.__disposcionesDict[numDisps[0]])
             except:
                 pass
-            dispDetails.append(entidades_ + ' ' + normativa)
+            dispDetails.append(disposicion + ' ' + normativa)
         else:
             dispDetails.append('NOT PROCESSED' + ' ' + normativa)
 
         #validador = dispDetails[0]
-        validador = entidades_
+        validador = disposicion
         validation = r"(?<!\S)"+'{}'.format(validador)+r"(?!\S)"
 
         '''GET THE OLD CONTENT FOR THE DISPOSICONES IS NOT DONE'''
-        old_content = normativa + ' ' + 'PENDIENTE PARA LAS DISPOSICIONES'
+        #old_content = normativa + ' ' + 'PENDIENTE PARA LAS DISPOSICIONES'
+        old_content = self.__get_old_content_disp(boeContent.find_all('h5', class_='articulo'),disposicion,boeContent)
+        old_content = normativa + ' ' + old_content
 
         new_content = self.__get_new_content(validation)
         new_content = normativa + ' ' + new_content
@@ -496,7 +498,7 @@ class BoeProcessing:
                         'normativa':normativa})
         
         '''GET THE OLD CONTENT FOR THE ARTICLES'''
-        old_content = self.__get_old_content(boeContent.find_all('h5', class_='articulo'),artDetails,boeContent)
+        old_content = self.__get_old_content_art(boeContent.find_all('h5', class_='articulo'),artDetails,boeContent)
         old_content = normativa + ' ' + old_content
 
         new_content = self.__get_new_content(validation)
@@ -523,8 +525,28 @@ class BoeProcessing:
 
         return artDetails,old_content,new_content
 
+    def __get_old_content_disp(self, content,dispDetails,soup):
 
-    def __get_old_content(self, content,artDetails,soup):
+        old_content_ = ''
+        result_found = False
+    
+        for c in content:
+            if result_found == True:
+                break
+            result = re.findall('\\b'+dispDetails+'\\b', c.text, flags=re.IGNORECASE)
+            if result:
+                h5 = soup.find('h5',string=c.text)
+                for s in h5.find_next_siblings():
+                    if s.name == 'p':
+                        old_content_  = old_content_ + s.get_text(strip=True) + '\n'
+                        result_found = True
+                    else:
+                        break   
+
+        return old_content_
+    
+
+    def __get_old_content_art(self, content,artDetails,soup):
         
         old_content_ = ''
         result_found = False
