@@ -432,7 +432,8 @@ class BoeProcessing:
         else:
             dispDetails.append('NOT PROCESSED' + ' ' + normativa)
 
-        validador = dispDetails[0]
+        #validador = dispDetails[0]
+        validador = entidades_
         validation = r"(?<!\S)"+'{}'.format(validador)+r"(?!\S)"
 
         '''GET THE OLD CONTENT FOR THE DISPOSICONES IS NOT DONE'''
