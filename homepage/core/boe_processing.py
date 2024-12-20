@@ -262,11 +262,8 @@ class BoeProcessing:
 
                                     for wordaux in doc_aux.ents:
                                         
-                                        if wordaux.label_ == 'LEYOR':
+                                        if wordaux.label_ == 'LEY':
                                             normativa = wordaux.text 
-                                            break
-                                        elif wordaux.label_ == 'LEY':
-                                            normativa = wordaux.text
                                             break
                                         elif wordaux.label_ == 'REALDE':
                                             normativa = wordaux.text
