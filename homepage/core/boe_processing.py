@@ -148,11 +148,10 @@ class BoeProcessing:
                 data = json.load(file)
                 
                 publicacion=data['data']['sumario']['metadatos']['publicacion']
-                fecha_publicacion=data['data']['sumario']['metadatos']['fecha_publicacion']
                 identificador = data['data']['sumario']['diario'][0]['sumario_diario']['identificador']
                 url_pdf = data['data']['sumario']['diario'][0]['sumario_diario']['url_pdf']['texto']
                 secciones = data['data']['sumario']['diario'][0]['seccion']
-                
+
                 for seccion in secciones:
                                     
                     codigo_seccion = seccion['codigo']
@@ -188,11 +187,22 @@ class BoeProcessing:
                                         url_html_item = self.__validate_element(item,'url_html')
                                         url_xml_item = self.__validate_element(item,'url_xml')
 
+                                        '''BOE ATRIBUTOS'''
+                                        boe_attrs=self.__get_boe_attributes(url_html_item)
+                                        rango=boe_attrs['Rango']
+                                        fecha_disposicion=boe_attrs['Fecha de disposición']
+                                        fecha_publicacion=boe_attrs['Fecha de publicación']
+                                        fecha_vigencia=boe_attrs['Fecha de entrada en vigor']
+
+
                                         ant_references,post_references=self.__get_references(url_xml_item)
 
                                         self.__listaboe.append(pd.DataFrame({'publicacion':publicacion,
                                                                             'api_url': api_url,
+                                                                            'rango':rango,
+                                                                            'fecha_disposicion':fecha_disposicion,
                                                                             'fecha_publicacion':fecha_publicacion,
+                                                                            'fecha_vigencia':fecha_vigencia,
                                                                             'identificador':identificador,
                                                                             'url_pdf': url_pdf,
                                                                             'codigo_seccion':codigo_seccion,
@@ -214,6 +224,28 @@ class BoeProcessing:
 
         file.close()
 
+    def __get_boe_attributes(self,url):
+
+        d = {'Rango':'',
+             'Fecha de disposición':'', 
+             'Fecha de publicación':'', 
+             'Fecha de entrada en vigor':''}
+
+        r = requests.get(url)
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        bullet_boe = soup.find(attrs={'class':'bullet-boe'})
+
+        if bullet_boe:
+            for li in bullet_boe:
+                if li.text != '\n':
+                    if li.text.split(':')[0] in ('Rango', 'Fecha de disposición', 'Fecha de publicación', 'Fecha de entrada en vigor'):
+                        #d[li.text.split(':')[0]] = []
+                        key=li.text.split(':')[0]
+                        d[key]=li.text.split(':')[1].lstrip()
+
+
+        return d
 
     def __boe_breakdown(self):
 
@@ -232,7 +264,10 @@ class BoeProcessing:
             if referencias_anteriores  or referencias_posteriores:
 
                 identificador_item = record['identificador_item']
+                rango = record['rango']
+                fecha_disposicion = record['fecha_disposicion']
                 fecha_publicacion = record['fecha_publicacion']
+                fecha_vigencia = record['fecha_vigencia']
                 url_html_item = record['url_html_item']
                 nombre_departamento = record['nombre_departamento']
                 nombre_epigrafe = record['nombre_epigrafe']
@@ -297,7 +332,10 @@ class BoeProcessing:
                                         
                                         artDetails,old_content,new_content = self.__art_processing(art,boeContent, normativa,nombre_departamento, nombre_epigrafe, identificador_item)
                                         self.__listafinal.append(pd.DataFrame({ 'identificador_item':identificador_item,
+                                                                                'rango':rango,
+                                                                                'fecha_disposicion':fecha_disposicion,
                                                                                 'fecha_publicacion':fecha_publicacion,
+                                                                                'fecha_vigencia':fecha_vigencia,
                                                                                 'url_html_item': url_html_item,
                                                                                 'nombre_departamento':nombre_departamento,
                                                                                 'nombre_epigrafe': nombre_epigrafe,
@@ -317,7 +355,10 @@ class BoeProcessing:
                                     
                                     dispDetails,old_content,new_content=self.__disp_processing(entidades,boeContent,normativa,nombre_departamento, nombre_epigrafe, identificador_item)     
                                     self.__listafinal.append(pd.DataFrame({ 'identificador_item':identificador_item,
+                                                                            'rango':rango,
+                                                                            'fecha_disposicion':fecha_disposicion,
                                                                             'fecha_publicacion':fecha_publicacion,
+                                                                            'fecha_vigencia':fecha_vigencia,
                                                                             'url_html_item': url_html_item,
                                                                             'nombre_departamento':nombre_departamento,
                                                                             'nombre_epigrafe': nombre_epigrafe,
