@@ -330,7 +330,7 @@ class BoeProcessing:
                                     
                                     for art in arts:
                                         
-                                        artDetails,old_content,new_content = self.__art_processing(art,boeContent, normativa,nombre_departamento, nombre_epigrafe, identificador_item)
+                                        artDetails,old_content,new_content,impacto = self.__art_processing(art,boeContent, normativa,nombre_departamento, nombre_epigrafe, identificador_item)
                                         self.__listafinal.append(pd.DataFrame({ 'identificador_item':identificador_item,
                                                                                 'rango':rango,
                                                                                 'fecha_disposicion':fecha_disposicion,
@@ -349,11 +349,12 @@ class BoeProcessing:
                                                                                 'entities': entidades,
                                                                                 'entity_detail': artDetails,
                                                                                 'old_content': [old_content],
-                                                                                'new_content': [new_content]}))
+                                                                                'new_content': [new_content],
+                                                                                'impacto':impacto}))
 
                                 elif word.label_ == 'DISP':
                                     
-                                    dispDetails,old_content,new_content=self.__disp_processing(entidades,boeContent,normativa,nombre_departamento, nombre_epigrafe, identificador_item)     
+                                    dispDetails,old_content,new_content,impacto=self.__disp_processing(entidades,boeContent,normativa,nombre_departamento, nombre_epigrafe, identificador_item)     
                                     self.__listafinal.append(pd.DataFrame({ 'identificador_item':identificador_item,
                                                                             'rango':rango,
                                                                             'fecha_disposicion':fecha_disposicion,
@@ -372,7 +373,8 @@ class BoeProcessing:
                                                                             'entities': entidades,
                                                                             'entity_detail': dispDetails,
                                                                             'old_content': [old_content],
-                                                                            'new_content': [new_content]}))        
+                                                                            'new_content': [new_content],
+                                                                            'impacto':impacto}))        
                                 else:
                                     pass
                                      
@@ -425,6 +427,7 @@ class BoeProcessing:
         '''
         contenido = []
         new_content = ''
+        accion = ''
 
         possible_articles_and_disps = self.__xmlContent.find_all("p", class_=['parrafo','parrafo_2'])
         for c in possible_articles_and_disps:
@@ -435,6 +438,7 @@ class BoeProcessing:
             result=re.findall(validation, text, flags=re.IGNORECASE)
 
             if result:
+                accion=c.text
                 contenido.append(c)
 
         if contenido:
@@ -451,12 +455,13 @@ class BoeProcessing:
             '''FURTHER PROCESSING IN CASE OTHER PATTERNS ARE FOUND FOR IDENTIFYING THE ARTICLES'''
             new_content = '\n' + 'NO HE PODIDO RECUPERAR CONTENIDO' + '\n'
 
-        return new_content
+        return new_content,accion
                     
     def __disp_processing(self,entidades,boeContent,normativa,nombre_departamento, nombre_epigrafe, identificador_item):
         
         dispDetails = []
         old_content = ''
+        accion=''
 
         '''Just interested in disposiciones with just 1 number'''
         numDisps=re.findall(r'[0-9]+', entidades)
@@ -477,10 +482,10 @@ class BoeProcessing:
         '''GET THE OLD CONTENT FOR THE DISPOSICONES IS NOT DONE'''
         #old_content = normativa + ' ' + 'PENDIENTE PARA LAS DISPOSICIONES'
         old_content = self.__get_old_content_disp(boeContent.find_all('h5', class_='articulo'),disposicion,boeContent)
-        old_content = normativa + ' ' + old_content
+        #old_content = normativa + ' ' + old_content
 
-        new_content = self.__get_new_content(validation)
-        new_content = normativa + ' ' + new_content
+        new_content,accion = self.__get_new_content(validation)
+        #new_content = normativa + ' ' + new_content
 
         df = nombre_departamento.to_frame().T
         for index, row in df.iterrows():
@@ -501,13 +506,14 @@ class BoeProcessing:
         self.__found = False
 
 
-        return dispDetails,old_content,new_content
+        return dispDetails,old_content,new_content,accion
 
     def __art_processing(self,art,boeContent,normativa,nombre_departamento, nombre_epigrafe, identificador_item):
 
         artDetails = []
         contenido = []
         old_content = ''
+        accion=''
 
         x = art.split(".")
         if len(x) == 1:
@@ -537,10 +543,10 @@ class BoeProcessing:
         
         '''GET THE OLD CONTENT FOR THE ARTICLES'''
         old_content = self.__get_old_content_art(boeContent.find_all('h5', class_='articulo'),artDetails,boeContent)
-        old_content = normativa + ' ' + old_content
+        #old_content = normativa + ' ' + old_content
 
-        new_content = self.__get_new_content(validation)
-        new_content = normativa + ' ' + new_content
+        new_content,accion = self.__get_new_content(validation)
+        #new_content = normativa + ' ' + new_content
 
         df = nombre_departamento.to_frame().T
         for index, row in df.iterrows():
@@ -561,7 +567,7 @@ class BoeProcessing:
         self.__found = False
 
 
-        return artDetails,old_content,new_content
+        return artDetails,old_content,new_content,accion
 
     def __get_old_content_disp(self, content,dispDetails,soup):
 

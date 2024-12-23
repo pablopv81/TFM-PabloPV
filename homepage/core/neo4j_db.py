@@ -73,7 +73,7 @@ class Neo4jDB:
         accion = ''
         entity_type =''
         entitydetail =''
-        old_content = ''
+        original_content = ''
         new_content = ''
         normativa = ''
         old_boe = ''
@@ -127,7 +127,7 @@ class Neo4jDB:
             '''OLD CONTENT'''
             df = record['old_content'].to_frame().T
             for index, row in df.iterrows():
-                old_content = row.values[0]
+                original_content = row.values[0]
             '''NEW CONTENT'''
             df = record['new_content'].to_frame().T
             for index, row in df.iterrows():
@@ -143,11 +143,15 @@ class Neo4jDB:
             '''LINK BOE ANTERIOR'''
             df = record['link_boe_anterior'].to_frame().T
             for index, row in df.iterrows():
-                link_boe_anterior = row.values[0]
+                link_boe_original = row.values[0]
             '''LINK BOE ACTUAL'''
             df = record['url_html_item'].to_frame().T
             for index, row in df.iterrows():
                 link_boe_actual = row.values[0]  
+            '''IMPACTO'''
+            df = record['impacto'].to_frame().T
+            for index, row in df.iterrows():
+                impacto = row.values[0]  
 
             p1="MERGE (department:Department{department_name:$department}) "              
             p2="MERGE (epigrafe:Epigrafe{epigrafe_name:$epigrafe}) "
@@ -158,22 +162,24 @@ class Neo4jDB:
             p7="SET boe.fecha_vigencia =$fecha_vigencia "
             p8="MERGE (oldboe:Oldboe{oldboe:$old_boe}) "
             p9="MERGE (entitydetail:Entitydetail{entity:$entitydetail}) "
-            p10="SET entitydetail.oldcontent =$old_content "
-            p11="SET entitydetail.oldcontent_url =$link_boe_anterior "
-            p12="SET entitydetail.newcontent =$new_content "
-            p13="SET entitydetail.newcontent_url =$link_boe_actual "
+            p10="SET entitydetail.originalcontent =$original_content "
+            p11="SET entitydetail.originalcontent_url =$link_boe_original "
+            p12="MERGE (newcontent:Newcontent{newcontent:$new_content}) " 
+            p13="SET newcontent.url =$link_boe_actual "
             p14="MERGE (normativa:Normativa{normativa_desc:$normativa}) "
             p15="MERGE (department)-[:EPIGRAFE]->(epigrafe)"
             p16="MERGE (department)-[:LIBERA]->(boe)"
             p17="MERGE (boe)-[:TEMATICA]->(epigrafe)"
             p18="MERGE (entitydetail)-[:REGIDO_POR]->(normativa)"
             p19="MERGE (entitydetail)-[:INCLUIDO_EN]->(oldboe)"
+            p20="MERGE (entitydetail)-[N:NEW_CONTENT]->(newcontent)"
+            p21="SET N.impacto=$impacto "
             if accion == 'MODIFICA':
-                p20="MERGE (boe)-[:MODIFICA]->(entitydetail)"
+                p22="MERGE (boe)-[:MODIFICA]->(entitydetail)"
             elif accion == 'AÑADE':
-                p20="MERGE (boe)-[:AÑADE]->(entitydetail)"
+                p22="MERGE (boe)-[:AÑADE]->(entitydetail)"
 
-            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17+p18+p19+p20
+            query = p1+p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17+p18+p19+p20+p21+p22
 
             self.__driver.execute_query(query,
                 department=nombre_departamento, 
@@ -185,11 +191,12 @@ class Neo4jDB:
                 fecha_vigencia=fecha_vigencia,
                 old_boe = old_boe,
                 entitydetail=entitydetail, 
-                old_content = old_content,
-                link_boe_anterior = link_boe_anterior,
+                original_content = original_content,
+                link_boe_original = link_boe_original,
                 new_content = new_content,
                 link_boe_actual = link_boe_actual,
                 normativa = normativa,
+                impacto=impacto,
                 database_="neo4j",
             )
 
