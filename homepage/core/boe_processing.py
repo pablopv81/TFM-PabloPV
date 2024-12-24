@@ -49,7 +49,18 @@ class BoeProcessing:
                                 '86': 'octogésima sexta', '87': 'octogésima séptima', '88': 'octogésima octava', '89':'octogésima novena', '90': 'nonagésima',
                                 '91':'nonagésima primera', '92':'nonagésima segunda', '93': 'nonagésima tercera', '94':'nonagésima cuarta', '95':'nonagésima quinta',
                                 '96':'nonagésima sexta', '97':'nonagésima séptima', '98': 'nonagésima octava', '99':'nonagésima novena', '100': 'centésima',
-                                '101': 'centésima primera','102': 'centésima segunda', '103': 'centésima tercera', '104': 'centésima cuarta','105':'centésima qunita'}
+                                '101': 'centésima primera','102': 'centésima segunda', '103': 'centésima tercera', '104': 'centésima cuarta','105':'centésima quinta',
+                                '106':'centésima sexta','107':'centésima séptima','108':'centésima octava','109':'centésima novena', '110':'centésima décima',
+                                '111':'centésima undécima','112':'centésima doceava','113':'centésima treceava','114':'centésima catorceava', '115':'centésima quinceava',
+                                '116':'centésima dieciseisava','117':'centésima decimoséptima','118':'centésima decimooctava','119':'centésima decimonovena', '120':'centésima vigésima',
+                                '120':'centésima vigésima primera','122':'centésima vigésima segunda','123':'centésima vigésima tercera','124':'centésima vigésima cuarta',
+                                '125':'centésima vigésima quinta','126':'centésima vigésima sexta','127':'centésima vigésima séptima','128':'centésima vigésima octava',
+                                '129':'centésima vigésima novena','130':'centésima trigésima','131':'centésima trigésima primera','132':'centésima trigésima segunda',
+                                '133':'centésima trigésima tercera','134':'centésima trigésima cuarta','135':'centésima trigésima quinta','136':'centésima trigésima sexta',
+                                '137':'centésima trigésima séptima','138':'centésima trigésima octava','139':'centésima trigésima novena','140':'centésima cuadragésima',
+                                '141':'centésima cuadragésima primera','142':'centésima cuadragésima segunda','143':'centésima cuadragésima tercera','144':'centésima cuadragésima cuarta',
+                                '145':'centésima cuadragésima quinta','146':'centésima cuadragésima sexta','147':'centésima cuadragésima séptima','148':'centésima cuadragésima octava',
+                                '149':'centésima cuadragésima novena','150':'centésima quincuagésima','151':'centésima quincuagésima primera','152':'centésima quincuagésima segunda'}
       
       '''PRINT LOG'''
       self.__print_log = True
@@ -309,8 +320,14 @@ class BoeProcessing:
                                 if normativa == '':
                                     normativa = 'NORMATIVA NO IDENTIFICADA'
                             
-                                boe_referencia = str(doc.ents[0][0])
-                                link = 'https://www.boe.es/buscar/doc.php?id=' + boe_referencia
+                                boe_origen= str(doc.ents[0][0])
+                                link = 'https://www.boe.es/buscar/doc.php?id=' + boe_origen
+                                boe_origen_attr=self.__get_boe_attributes(link)
+                                boe_origen_rango=boe_origen_attr['Rango']
+                                boe_origen_fecha_disposicion=boe_origen_attr['Fecha de disposición']
+                                boe_origen_fecha_publicacion=boe_origen_attr['Fecha de publicación']
+                                boe_origen_fecha_vigencia=boe_origen_attr['Fecha de entrada en vigor']
+
                                 page = requests.get(link)
                                 boeContent = BeautifulSoup(page.content, 'html.parser')
                                 entity_type = word.label_
@@ -341,8 +358,12 @@ class BoeProcessing:
                                                                                 'nombre_epigrafe': nombre_epigrafe,
                                                                                 'nombre_seccion':nombre_seccion,
                                                                                 'titulo_item': titulo_item,
-                                                                                'boe_anterior': boe_referencia,
-                                                                                'link_boe_anterior': link,
+                                                                                'boe_origen': boe_origen,
+                                                                                'boe_origen_rango':boe_origen_rango,
+                                                                                'boe_origen_fecha_disposicion':boe_origen_fecha_disposicion,
+                                                                                'boe_origen_fecha_publicacion':boe_origen_fecha_publicacion,
+                                                                                'boe_origen_fecha_vigencia':boe_origen_fecha_vigencia,
+                                                                                'link_boe_origen': link,
                                                                                 'accion': accion,
                                                                                 'normativa': normativa,
                                                                                 'entity_type': entity_type,
@@ -365,8 +386,12 @@ class BoeProcessing:
                                                                             'nombre_epigrafe': nombre_epigrafe,
                                                                             'nombre_seccion':nombre_seccion,
                                                                             'titulo_item': titulo_item,
-                                                                            'boe_anterior': boe_referencia,
-                                                                            'link_boe_anterior': link,
+                                                                            'boe_origen': boe_origen,
+                                                                            'boe_origen_rango':boe_origen_rango,
+                                                                            'boe_origen_fecha_disposicion':boe_origen_fecha_disposicion,
+                                                                            'boe_origen_fecha_publicacion':boe_origen_fecha_publicacion,
+                                                                            'boe_origen_fecha_vigencia':boe_origen_fecha_vigencia,
+                                                                            'link_boe_origen': link,
                                                                             'accion': accion,
                                                                             'normativa': normativa,
                                                                             'entity_type': entity_type,
@@ -438,15 +463,17 @@ class BoeProcessing:
             result=re.findall(validation, text, flags=re.IGNORECASE)
 
             if result:
+                accion=''
                 accion=c.text
-                contenido.append(c)
+                contenido.append({'contenido':c,'accion':accion})
 
         if contenido:
             for c in contenido:
-                for sibling in c.find_next_siblings():
+                for sibling in c['contenido'].find_next_siblings():
                     if sibling.name=='blockquote':
                         for element in sibling:
                             self.__found = True
+                            accion = c['accion']
                             new_content = new_content + element.text
                     if sibling.name=='p':
                         break
