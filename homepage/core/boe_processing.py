@@ -318,7 +318,7 @@ class BoeProcessing:
                                             pass
                                     
                                 if normativa == '':
-                                    normativa = 'NORMATIVA NO IDENTIFICADA'
+                                    normativa = 'NORMATIVA NO IDENTIFICADA ' + identificador_item
                             
                                 boe_origen= str(doc.ents[0][0])
                                 link = 'https://www.boe.es/buscar/doc.php?id=' + boe_origen
@@ -480,7 +480,7 @@ class BoeProcessing:
 
         if self.__found == False:
             '''FURTHER PROCESSING IN CASE OTHER PATTERNS ARE FOUND FOR IDENTIFYING THE ARTICLES'''
-            new_content = '\n' + 'NO HE PODIDO RECUPERAR CONTENIDO' + '\n'
+            new_content = 'NO HE PODIDO RECUPERAR CONTENIDO'
 
         return new_content,accion
                     
@@ -512,6 +512,8 @@ class BoeProcessing:
         #old_content = normativa + ' ' + old_content
 
         new_content,accion = self.__get_new_content(validation)
+        if 'NO HE PODIDO RECUPERAR CONTENIDO' in new_content:
+            new_content = new_content + ' ' + identificador_item
         #new_content = normativa + ' ' + new_content
 
         df = nombre_departamento.to_frame().T
@@ -574,6 +576,8 @@ class BoeProcessing:
 
         new_content,accion = self.__get_new_content(validation)
         #new_content = normativa + ' ' + new_content
+        if 'NO HE PODIDO RECUPERAR CONTENIDO' in new_content:
+            new_content = new_content + ' ' + identificador_item
 
         df = nombre_departamento.to_frame().T
         for index, row in df.iterrows():
