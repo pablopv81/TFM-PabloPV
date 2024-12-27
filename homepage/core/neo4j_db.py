@@ -123,7 +123,8 @@ class Neo4jDB:
                 if entity_type == 'ART':
                     entitydetail = 'ARTICULO ' + str(row.values[0]['articulo']) + '.' + str(row.values[0]['apartado']) + '.' + str(row.values[0]['subapartado']) + '.' + str(row.values[0]['normativa'])
                 else:
-                    entitydetail = row[0][0].upper()
+                    #entitydetail = row[0][0].upper()
+                    entitydetail =row.values[0]
             '''OLD CONTENT'''
             df = record['old_content'].to_frame().T
             for index, row in df.iterrows():
