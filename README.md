@@ -78,11 +78,18 @@ https://www.youtube.com/watch?v=MC2_Gxzo9RQ <br/>
 The final objective has been covered partially. With the current modeling of the data base it can be difficult to get the last situation of an article or provision.
 
 ## Future Work
-In order to obtain the last version of an article or provision, it can be necessary to study a new modeling for the data base, where each article or disposition is linked with the paragraphs that make it up.<br/>
-Train the NER model in a different way. Currenty the model detects articles as a group (see next figure), which causes a split process during the extraction.<br/>
+In order to obtain the last version of an article or provision, it can be necessary to study a new modeling for the data base, where each article or provision is linked with the paragraphs that make it up.<br/>
+Train the NER model in a different way, where each article or provision is detected as an unique element. Currenty the model detects articles as a group (see next figure), which causes a split process during the extraction.<br/>
 ![2024-12-29 165550 (002)](https://github.com/user-attachments/assets/070e728c-e9cd-4a29-a03d-1b7c46123039)
-
+Improvement of the entity linking process.<br/>
+Check the feasibility of building an Q&A application, where the user asks a question with natural language, this language is translated to a Cypher query, and a response is provided based on the information contained in the data base.<br/>
+As a big and challenging project, expand this application to other regions, as I think other countries/regions might have their own gazzete for releasing legislation.<br/>
 
 ## Contributing
+Contributions are more than welcome!
 ## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 ## Acknowledgments
+    Universitat Oberta de Catalunya (UOC)
+    Nadjet Bouayad-Agha (Tutor)
+    Josep Anton Mir Tutusaus (Professor)
