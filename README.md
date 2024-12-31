@@ -68,5 +68,5 @@ TFM-PabloPV/<br/>
 ## Results
 
 The project provides a new vision a much clear understanding of BOE. The NER model has performed well when it comes identifying the entities of interest. However, some errors, related with the entity linking, have been detected. You can check these videos showing 2 main errores detected during the evaluation. <br/> 
-https://www.youtube.com/watch?v=mQJ_v8_Gc80
-https://www.youtube.com/watch?v=MC2_Gxzo9RQ
+https://www.youtube.com/watch?v=mQJ_v8_Gc80 <br/> 
+https://www.youtube.com/watch?v=MC2_Gxzo9RQ <br/> 
