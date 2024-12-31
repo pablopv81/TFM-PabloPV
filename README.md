@@ -68,7 +68,7 @@ TFM-PabloPV/<br/>
 -------.gitignore<br/> 
 -------LICENSE<br/> 
 -------README.md <br/> 
--------manage.py (for starting the Django server) <br/> 
+-------manage.py (for running the Django server) <br/> 
 
 ## Results
 
