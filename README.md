@@ -32,6 +32,8 @@ This project extracts BOE data from a specific field (labour topics affecting Sp
 Per each article or provision detected an entity linking is applied in order to obtain the original content and the new content of the article or provision. Finally, once the information is collected, it is save within a graph data base Neo4j. <br/>
 
 Additionally, a basic web application has been developed (see next figure) in order to follow up the data extraction process. <br/>
+![Captura de pantalla 2024-12-31 120909](https://github.com/user-attachments/assets/17937f2d-ad45-4ee8-8dd8-bcbf87339bbe)
+
 
 
 ## Motivation
