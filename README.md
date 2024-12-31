@@ -14,7 +14,7 @@ Ministerio de Inclusión, Seguridad Social y Migraciones<br/>
 I. Disposiciones generales<br/>
 III. Otras disposiciones<br/>
 
-The final objective is trying to provide the last situation of an article or provision. Next figure shows the modifications done over article 80.4 by BOE-A-2024-6086 (https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-6086). Highlighted in grey what it has not changed. In yellow the new content from paragraph 4<br/>.
+The final objective is trying to provide the last situation of an article or provision. Next figure shows the modifications done over article 80.4 by BOE-A-2024-6086 (https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-6086). Highlighted in grey what it has not changed. In yellow the new content for paragraph 4<br/>.
 ![2024-10-30 162612 (002)](https://github.com/user-attachments/assets/b27f4213-390e-4896-aa66-ad061644f4d0)
 <br/>
 To be considered that some decisions have been taken under my criteria. It is just recovered information, once the filter for departments and sections is applied, when the action is 'MODIFICACION' or 'AÑADE', and just when there are previous or future references. Then some important information can be skipped and not recovered.For that reason, it would be extremly helpfull count on the assistance of an expert on BOE, in order to find the correct extraction process, with the correct criterias to be applied, and data base modeling.
