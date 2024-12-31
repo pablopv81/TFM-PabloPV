@@ -35,4 +35,15 @@ Additionally, a basic web application has been developed (see next figure) in or
 ![Captura de pantalla 2024-12-31 120909](https://github.com/user-attachments/assets/17937f2d-ad45-4ee8-8dd8-bcbf87339bbe)
 
 ## Motivation
-Several motivations are behind this project. One of them is trying to provide a better understanding of BOE content.
+Several motivations are behind this project. One of them is trying to provide a better understanding of BOE content, with specific focus on Spanish payroll topics.
+
+## Methodology
+
+CRISP-DM methodology, which includes the following phases:<br/>
+
+Business Understanding<br/>
+Data Understanding<br/>
+Data Preparation<br/>
+Modeling<br/>
+Evaluation<br/>
+Deployment<br/>
