@@ -36,7 +36,7 @@ This project extracts BOE data for a specific field (labour topics affecting Spa
 
 Per each article or provision detected, an entity linking is applied in order to obtain the original content and the new content of the article or provision. Finally, once the information is collected, it is save within a graph data base Neo4j (you can find a short demo here https://www.youtube.com/watch?v=3K3vLK8h-90). <br/>
 
-Additionally, a basic web application has been developed (see next figure) in order to follow up the data extraction process. <br/>
+Additionally, a basic web application has been developed (see next figure) in order to extract and follow up the data extraction process. <br/>
 ![Captura de pantalla 2024-12-31 120909](https://github.com/user-attachments/assets/17937f2d-ad45-4ee8-8dd8-bcbf87339bbe)
 
 ## Motivation
@@ -72,7 +72,7 @@ TFM-PabloPV/<br/>
 
 ## Results
 
-The project provides a new vision a much clear understanding of BOE. The NER model has performed well when it comes identifying the entities of interest. However, some errors, related with the entity linking, have been detected. You can check these videos showing 2 main errores detected during the evaluation. <br/> 
+The project provides a new vision and a much clear understanding of BOE. The NER model has performed well when it comes identifying the entities of interest. However, some errors, related with the entity linking, have been detected. You can check these videos showing 2 main errores detected during the evaluation. <br/> 
 https://www.youtube.com/watch?v=mQJ_v8_Gc80 <br/> 
 https://www.youtube.com/watch?v=MC2_Gxzo9RQ <br/> 
 
