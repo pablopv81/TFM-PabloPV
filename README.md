@@ -14,7 +14,7 @@ Ministerio de Inclusión, Seguridad Social y Migraciones<br/>
 I. Disposiciones generales<br/>
 III. Otras disposiciones<br/>
 
-The final objective is trying to provide the last situation of an article or provision. Next figure shows the modificatins done over article 80.4 by BOE-A-2024-6086 (https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-6086)<br/>.
+The final objective is trying to provide the last situation of an article or provision. Next figure shows the modifications done over article 80.4 by BOE-A-2024-6086 (https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-6086). Highlighted in grey what it has not changed. In yellow the new content from paragraph 4<br/>.
 ![2024-10-30 162612 (002)](https://github.com/user-attachments/assets/b27f4213-390e-4896-aa66-ad061644f4d0)
 
 
