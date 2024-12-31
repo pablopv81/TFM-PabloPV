@@ -47,3 +47,12 @@ Data Preparation<br/>
 Modeling<br/>
 Evaluation<br/>
 Deployment<br/>
+
+## Project Structure
+
+TFM-PabloPV/
+├── homepage/
+│   └── NER_Custom_Model
+│      └── ... (Jupyter notebook for training the NER model and other necessary files )  
+├── webapp/  
+
