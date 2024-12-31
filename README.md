@@ -51,9 +51,10 @@ Deployment<br/>
 ## Project Structure
 
 TFM-PabloPV/<br/>
-├── homepage/<br/>
-│-----|--Core<br/>
-│-------|--NER_Custom_Model<br/>
-│---------|--(Jupyter notebook for training the NER model and other necessary files ) <br/> 
+|---homepage/<br/>
+│-----Core/<br/>
+|---------(Python files for data extraction & data base management)
+│---------NER_Custom_Model/<br/>
+│------------(Jupyter notebook for training the NER model and other necessary files ) <br/> 
 ├── webapp/<br/>  
 
