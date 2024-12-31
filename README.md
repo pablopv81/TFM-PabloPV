@@ -75,7 +75,12 @@ The project provides a new vision a much clear understanding of BOE. The NER mod
 https://www.youtube.com/watch?v=mQJ_v8_Gc80 <br/> 
 https://www.youtube.com/watch?v=MC2_Gxzo9RQ <br/> 
 
+The final objective has been covered partially. With the current modeling of the data base it can be difficult to get the last situation of an article or provision.
+
 ## Future Work
+In order to obtain the last version of an article or provision, it can be necessary to study a new modeling for the data base, where each article or disposition is linked with the paragraphs that make it up.<br/>
+Train the NER model in a different way. Currenty the model detects articles as a group (see next figure), which causes a split process during the extraction.<br/>
+![2024-12-29 165550 (002)](https://github.com/user-attachments/assets/070e728c-e9cd-4a29-a03d-1b7c46123039)
 
 
 ## Contributing
