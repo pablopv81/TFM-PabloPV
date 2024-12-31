@@ -54,8 +54,13 @@ TFM-PabloPV/<br/>
 ---homepage/<br/>
 -----core/<br/>
 ---------(Python files for data extraction & data base management)<br/> 
----------(Django elements)<br/> 
+---------(Django necessary elements)<br/> 
 ---------NER_Custom_Model/<br/>
 ------------(Jupyter notebook for training the NER model and other necessary files ) <br/> 
----webapp/<br/>  
-
+---webapp/<br/>
+-----(Django settings and static files) <br/> 
+---.gitattributes
+---.gitignore
+---LICENSE
+---README.md
+---manage.py (for starting the Django server)
