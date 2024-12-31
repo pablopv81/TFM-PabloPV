@@ -51,16 +51,16 @@ Deployment<br/>
 ## Project Structure
 
 TFM-PabloPV/<br/>
----homepage/<br/>
------core/<br/>
----------(Python files for data extraction & data base management)<br/> 
----------(Django necessary elements)<br/> 
----------NER_Custom_Model/<br/>
-------------(Jupyter notebook for training the NER model and other necessary files ) <br/> 
----webapp/<br/>
------(Django settings and static files) <br/> 
----.gitattributes<br/> 
----.gitignore<br/> 
----LICENSE<br/> 
----README.md <br/> 
----manage.py (for starting the Django server) <br/> 
+-------homepage/<br/>
+----------core/<br/>
+--------------(Python files for data extraction & data base management)<br/> 
+--------------(Django necessary elements)<br/> 
+--------------NER_Custom_Model/<br/>
+-----------------(Jupyter notebook for training the NER model and other necessary files ) <br/> 
+-------webapp/<br/>
+----------(Django settings and static files) <br/> 
+-------.gitattributes<br/> 
+-------.gitignore<br/> 
+-------LICENSE<br/> 
+-------README.md <br/> 
+-------manage.py (for starting the Django server) <br/> 
