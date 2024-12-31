@@ -26,6 +26,13 @@ III. Otras disposiciones<br/>
 9. [Acknowledgments](#acknowledgments)
 
 ## Project Description
-asasas
+This project extracts BOE data from a specific field (labour topics affecting Spanish payroll), applies a NER custom model for detecting entites, such as laws, dates, BOE id, articles, provisions and royal decrees (see next figure, where it has been highlighted the elements that should be detected by the NER model).  <br/>
+![image](https://github.com/user-attachments/assets/25924145-9e7e-49d3-a936-a708d3df1fd2)
+
+Per each article or provision detected an entity linking is applied in order to obtain the original content and the new content of the article or provision. Finally, once the information is collected, it is save within a graph data base Neo4j. <br/>
+
+Additionally, a basic web application has been developed (see next figure) in order to follow up the data extraction process. <br/>
+
+
 ## Motivation
 sasasas
