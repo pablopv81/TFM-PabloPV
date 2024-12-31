@@ -50,9 +50,9 @@ Deployment<br/>
 
 ## Project Structure
 
-TFM-PabloPV/
-├── homepage/
-│   └── NER_Custom_Model
-│      └── ... (Jupyter notebook for training the NER model and other necessary files )  
-├── webapp/  
+TFM-PabloPV/<br/>
+├── homepage/<br/>
+│   └── NER_Custom_Model<br/>
+│      └── ... (Jupyter notebook for training the NER model and other necessary files ) <br/> 
+├── webapp/<br/>  
 
