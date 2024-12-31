@@ -59,8 +59,8 @@ TFM-PabloPV/<br/>
 ------------(Jupyter notebook for training the NER model and other necessary files ) <br/> 
 ---webapp/<br/>
 -----(Django settings and static files) <br/> 
----.gitattributes
----.gitignore
----LICENSE
----README.md
----manage.py (for starting the Django server)
+---.gitattributes<br/> 
+---.gitignore<br/> 
+---LICENSE<br/> 
+---README.md <br/> 
+---manage.py (for starting the Django server) <br/> 
