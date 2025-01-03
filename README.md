@@ -70,7 +70,7 @@ TFM-PabloPV/<br/>
 -------README.md <br/> 
 -------manage.py (for running the Django server) <br/> 
 
-**Note**: Create your own Neo4J instance here https://neo4j.com/product/auradb/, and inform the credentials in file core/neo4j_db.py (class Neo4jDB constructor).<br/> 
+**Note**: For testing, create your own Neo4J instance here https://neo4j.com/product/auradb/, and inform the credentials in file core/neo4j_db.py (class Neo4jDB constructor).<br/> 
 
         self.__uri = '****************'
         self.__user = '*********'
