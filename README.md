@@ -80,7 +80,7 @@ The final objective has been covered partially. With the current modeling of the
 
 ## Future Work
 In order to obtain the last version of an article or provision, it can be necessary to study a new modeling for the data base, where each article or provision is linked with the paragraphs that make it up.<br/><br/>
-Train the NER model in a different way, where each article or provision is detected as an unique element. Currenty the model detects articles as a group (see next figure), which causes a split process during the extraction.<br/>
+Train the NER model in a different way, where each article or provision is detected as an unique element. Currenty the model detects articles as a group (see next figure), which requires a split process during the extraction.<br/>
 ![2024-12-29 165550 (002)](https://github.com/user-attachments/assets/070e728c-e9cd-4a29-a03d-1b7c46123039)<br/><br/>
 Improvement of the entity linking process.<br/><br/>
 Check the feasibility of building an Q&A application, where the user asks a question with natural language, this language is translated to a Cypher query, and a response is provided based on the information contained in the data base.<br/><br/>
