@@ -6,9 +6,10 @@ from networkx import florentine_families_graph
 class Neo4jDB:
 
     def __init__(self):
-        self.__uri = 'neo4j+s://331cc11d.databases.neo4j.io'
-        self.__user = 'neo4j'
-        self.__pwd = 'gc2vhL-G7v5b6whsgg1PknOUJNz4SEo9gkCoSvJWdAE'
+
+        self.__uri = '****************'
+        self.__user = '*********'
+        self.__pwd = '*****************************'
         self.__driver = None
         try:
             self.__driver = GraphDatabase.driver(self.__uri, auth=(self.__user, self.__pwd))
