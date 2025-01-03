@@ -70,6 +70,9 @@ TFM-PabloPV/<br/>
 -------README.md <br/> 
 -------manage.py (for running the Django server) <br/> 
 
+**Note**
+
+
 ## Results
 
 The project provides a new vision and a much clear understanding of BOE. The NER model has performed well when it comes identifying the entities of interest. However, some errors, related with the entity linking, have been detected. You can check these videos showing 2 main errores detected during the evaluation. <br/> 
