@@ -83,6 +83,10 @@ The project provides a new vision and a much clear understanding of BOE. The NER
 https://www.youtube.com/watch?v=mQJ_v8_Gc80 <br/> 
 https://www.youtube.com/watch?v=MC2_Gxzo9RQ <br/> 
 
+It also has been detected errors related with the format with which the BOE represents the identification of the articles. Usually, numbers are used, but it has also been detected the usage of ordinal numbers, causing the impossibility of retrieving the original content od the article, as it is presented in this video.<br/> 
+
+https://www.youtube.com/watch?v=0SxFSGjCC1c <br/> 
+
 The final objective has been covered partially. With the current modeling of the data base it can be difficult to get the last situation of an article or provision.
 
 ## Future Work
