@@ -74,7 +74,9 @@ TFM-PabloPV/<br/>
 
         self.__uri = '****************'
         self.__user = '*********'
-        self.__pwd = '*****************************'
+        self.__pwd = '*****************************' <br/>
+
+        For running the server on your local machine -> python manage.py runserver. You can, for example, request data for 27.03.2024
 
 
 ## Results
